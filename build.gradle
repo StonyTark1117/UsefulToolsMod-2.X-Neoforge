@@ -74,6 +74,17 @@ repositories {
         url = "https://maven.shedaniel.me/"
         content { includeGroup "me.shedaniel.cloth" }
     }
+
+    // Modrinth — JER is only published here for 1.21.1/NeoForge.
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter { includeGroup "maven.modrinth" }
+    }
 }
 
 dependencies {
@@ -93,6 +104,13 @@ dependencies {
     // Cloth Config — compile against full jar (API + impl), runtime jar at runtime
     compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
     runtimeOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
+
+    // Just Enough Resources — registers our ores with JER's WorldGen tab so
+    // players see distribution graphs alongside vanilla iron/copper/etc.
+    // compileOnly keeps the JER imports inert when the mod isn't installed;
+    // runtimeOnly loads the full jar into runClient for in-dev testing.
+    compileOnly "maven.modrinth:just-enough-resources-jer:${jer_version}"
+    runtimeOnly "maven.modrinth:just-enough-resources-jer:${jer_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -112,7 +130,8 @@ tasks.named('processResources', ProcessResources).configure {
             mod_description        : mod_description,
             jei_version            : jei_version,
             wthit_version          : wthit_version,
-            cloth_config_version   : cloth_config_version
+            cloth_config_version   : cloth_config_version,
+            jer_mod_version        : jer_mod_version
     ]
     inputs.properties replaceProperties
 

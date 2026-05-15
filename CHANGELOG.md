@@ -9,6 +9,7 @@
   - Metal tools: copper, rgold, pobsidian, fni, rraw_iron, rraw_copper, rraw_gold, rraw_rgold, rscrap, rlapis, pemerald full tool sets, plus overpower sword/pickaxe/axe/shovel
   - Ferromagnetic blocks: all four `rgold` ore variants (overworld/deepslate/nether/end), `rgoldblock`, `raw_rgold_block`, `lblock`, `semblock`, `soblock`
   - Tag JSONs are emitted unconditionally; they're inert when Magnetization isn't installed, so no runtime gate is needed. Magnetization is listed as an `optional` dependency in `neoforge.mods.toml` for metadata clarity.
+- **Just Enough Resources (JER) integration** — when JER is installed, all four Ferrous Gold Ore variants (overworld, deepslate, nether, end) are registered with JER's WorldGen tab so players see the Y-distribution graph and drops next to vanilla iron/copper/etc. Registration happens during common setup against `JERAPI.getInstance()` directly, bypassing JER 1.6.0.17's broken `@JERPlugin` annotation scanner; the same approach [JER Integration](https://www.curseforge.com/minecraft/mc-mods/jer-integration) uses. The plugin class loads lazily behind `ModList.isLoaded("jeresources")`, so JER imports stay inert when the mod isn't present.
 
 ## 2.2.2-1.21.1-neoforge
 

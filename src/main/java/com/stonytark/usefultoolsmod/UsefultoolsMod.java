@@ -19,6 +19,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
@@ -71,7 +72,17 @@ public class UsefultoolsMod
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-
+        event.enqueueWork(() -> {
+            // Just Enough Resources: register our ore worldgen distributions
+            // so they show up in JER's WorldGen tab. JER's @JERPlugin scanner
+            // is broken in the 1.21.1 NeoForge build, so we register directly
+            // against JERAPI.getInstance() during common setup. The isLoaded
+            // gate keeps UsefulToolsJerPlugin (and its JER imports) unloaded
+            // when JER isn't installed.
+            if (ModList.get().isLoaded("jeresources")) {
+                com.stonytark.usefultoolsmod.compat.jer.UsefulToolsJerPlugin.register();
+            }
+        });
     }
 
     // Add the example block item to the building blocks tab

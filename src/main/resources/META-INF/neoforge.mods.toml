@@ -77,3 +77,13 @@ description='''${mod_description}'''
     versionRange="[1.0.0,)"
     ordering="AFTER"
     side="BOTH"
+
+# Optional integration: Just Enough Resources (JER). Registers this mod's
+# ore worldgen distributions with JER's WorldGen tab. Plugin class is
+# loaded only when the mod is present (lazy classload behind ModList).
+[[dependencies.${mod_id}]]
+    modId="jeresources"
+    type="optional"
+    versionRange="[${jer_mod_version},)"
+    ordering="AFTER"
+    side="CLIENT"
